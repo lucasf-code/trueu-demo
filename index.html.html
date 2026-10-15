@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRUEU – Demo</title>
+<style>
+:root{--bg:#101016;--panel:#191722;--panel2:#24222d;--line:#35313f;--text:#f7f5fb;--muted:#b7b1c8;--purple:#8d70f2;--mint:#67ddb4;--gold:#e5be78}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 14px;background:var(--purple);color:white;font-weight:650}button.secondary{background:var(--panel2);border:1px solid var(--line)}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+.shell{max-width:760px;margin:0 auto;min-height:100vh;background:var(--bg);border-left:1px solid #26232f;border-right:1px solid #26232f}
+header{padding:20px;background:var(--panel);border-bottom:1px solid var(--line)}.brand{display:flex;gap:13px;align-items:center}.mark{height:48px;width:48px;border-radius:15px;background:var(--purple);display:grid;place-items:center;font-size:25px}.brand h1{margin:0;font-size:26px;letter-spacing:1px}.tagline{font-size:11px;letter-spacing:1.7px;color:var(--muted)}.demo{margin-left:auto;border:1px solid #286b55;background:#17372f;color:var(--mint);font-size:12px;padding:5px 9px;border-radius:20px}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:18px}nav button{background:var(--panel2);color:var(--muted);padding:10px 4px;font-size:13px}nav button.active{background:#39304f;color:white}
+main{padding:18px}.heading{font-size:24px;margin:0 0 4px}.muted{color:var(--muted)}.small{font-size:13px}.filters{display:flex;gap:8px;margin:18px 0}.filters button{flex:1}.filters button.active{background:var(--purple)}.filters button:not(.active){background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:15px;margin:12px 0}.row{display:flex;align-items:center;gap:13px}.avatar{width:68px;height:68px;border-radius:16px;display:grid;place-items:center;color:white;font-weight:750;font-size:20px;flex-shrink:0}.grow{flex:1;min-width:0}.name{font-size:17px;font-weight:750}.verified{color:var(--mint);font-size:12px;margin-top:3px}.unverified{color:var(--gold);font-size:12px;margin-top:3px}.actions{display:flex;gap:8px;margin-top:14px}.actions button:first-child{flex:1}.bio{margin:13px 0 0;color:#e4e0ec}.pill{display:inline-block;border-radius:20px;background:#25232f;border:1px solid var(--line);padding:5px 9px;font-size:12px;color:var(--muted)}
+.hidden{display:none!important}.profile-hero{text-align:center;padding:18px}.profile-hero .avatar{margin:0 auto 14px;width:92px;height:92px;font-size:26px}.center{text-align:center}.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:14px}.status{padding:12px;border-radius:12px;background:#242130;margin:12px 0}.status strong{display:block;margin-bottom:4px}.chatline{background:#2c263c;border-radius:12px;padding:12px;margin:12px 0;max-width:85%}.chatline.mine{background:#514080;margin-left:auto}.field{width:100%;background:#101016;border:1px solid var(--line);border-radius:12px;padding:12px;color:white;margin:8px 0}.notice{font-size:12px;color:#8e879f;margin-top:14px}.footer{padding:14px;text-align:center;color:#8e879f;background:var(--panel);font-size:12px;border-top:1px solid var(--line)}
+@media(min-width:600px){main{padding:24px}.card{padding:18px}.avatar{width:76px;height:76px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+  <div class="brand"><div class="mark">◎</div><div><h1>TRUEU</h1><div class="tagline">BE REAL. CONNECT FOR REAL.</div></div><span class="demo">DEMO</span></div>
+  <nav aria-label="Hauptnavigation">
+    <button class="active" data-tab="discover">⌕ Entdecken</button>
+    <button data-tab="chats">☏ Chats</button>
+    <button data-tab="images">◇ Bilder</button>
+    <button data-tab="profile">♙ Profil</button>
+  </nav>
+</header>
+<main>
+<section id="discover">
+  <h2 class="heading">Echte Menschen. Echte Nähe.</h2><div class="muted small">Entdecke neue Kontakte in deiner Umgebung.</div>
+  <div class="filters"><button class="active" data-filter="Alle">Alle</button><button class="secondary" data-filter="Mann">Männer</button><button class="secondary" data-filter="Paar">Paare</button></div>
+  <div id="profiles"></div>
+  <p class="notice">Beispieldaten und Entfernungen sind fiktiv. Es werden keine echten Personen angezeigt.</p>
+</section>
+<section id="chats" class="hidden">
+  <h2 class="heading">Deine Chats</h2><p class="muted small">Wähle einen Demo-Kontakt aus.</p><div id="chat-list"></div>
+  <div id="chat-window" class="panel hidden"></div>
+</section>
+<section id="images" class="hidden">
+  <h2 class="heading">TRUEU Verified</h2><p class="muted small">Dein Konzept für kontrollierten Bilderversand.</p>
+  <div class="panel center"><div style="font-size:42px;color:var(--mint)">◇</div><h3>Bilder mit Vertrauensstatus</h3><p class="muted">Im späteren Produkt werden intime Bilder nur über eine geschützte Live-Aufnahme oder aus dem persönlichen, freigegebenen Bilderbereich versendet.</p>
+    <div class="status"><strong>📷 Live aufgenommen</strong><span class="muted small">Direkt in der App erfasst, nicht aus der Galerie gewählt.</span></div>
+    <div class="status"><strong>✓ Vom Betreiber geprüft</strong><span class="muted small">Privates Bild mit Freigabe für das jeweilige Konto.</span></div>
+    <button id="verify-button">Ablauf ansehen</button><p id="verify-note" class="muted small hidden">Demo-Modus: Hier wird keine Kamera gestartet und kein Bild aufgenommen. Eine echte Verifizierung braucht einen sicheren Backend-Prozess.</p>
+  </div>
+</section>
+<section id="profile" class="hidden">
+  <h2 class="heading">Dein TRUEU-Profil</h2><div class="panel center"><div class="avatar" style="background:#7855d9;margin:0 auto 14px;width:82px;height:82px">DU</div><h3>Demo-Nutzer</h3><span class="pill">Noch nicht verifiziert</span><p class="muted">Hier kommen später Profilangaben, Paarstatus, Privatsphäre und Verifizierungseinstellungen hin.</p><button id="profile-verify">Verifizierung ansehen</button></div>
+  <div class="panel"><strong>Gemerkte Profile</strong><div id="saved-list" class="muted small" style="margin-top:8px">Noch keine Profile gemerkt.</div></div>
+</section>
+<section id="detail" class="hidden"></section>
+</main>
+<div class="footer">TRUEU · Interaktiver Design-Prototyp · Keine echten Konten oder Bild-Uploads</div>
+</div>
+<script>
+const people=[
+{name:"Alex",age:23,type:"Mann",distance:"8 km entfernt",initial:"A",color:"#7855D9",verified:true,bio:"Sport, gute Gespräche und spontane Treffen."},
+{name:"Chris & Ben",age:24,type:"Paar",distance:"18 km entfernt",initial:"C+B",color:"#267D83",verified:true,bio:"Wir suchen einen sympathischen Mann oder ein offenes Paar."},
+{name:"Robin",age:22,type:"Mann",distance:"26 km entfernt",initial:"R",color:"#B45B87",verified:false,bio:"Locker kennenlernen und sehen, ob die Chemie stimmt."}
+];
+let filter="Alle",saved=new Set(),activeChat=null;
+const $=id=>document.getElementById(id);
+function renderProfiles(){
+ const list=people.filter(p=>filter==="Alle"||p.type===filter);
+ $("profiles").innerHTML=list.map(p=>`<article class="card"><div class="row"><div class="avatar" style="background:${p.color}">${p.initial}</div><div class="grow"><div class="name">${p.name}, ${p.age} ${p.verified?"<span style='color:var(--mint)'>✓</span>":""}</div><div class="muted small">${p.type} · ${p.distance}</div><div class="${p.verified?"verified":"unverified"}">${p.verified?"Demo: verifiziert":"Demo: noch nicht verifiziert"}</div></div></div><p class="bio">${p.bio}</p><div class="actions"><button data-open="${people.indexOf(p)}">Profil öffnen</button><button class="secondary" data-save="${people.indexOf(p)}">${saved.has(p.name)?"♥ Gemerkt":"♡ Merken"}</button></div></article>`).join("");
+ document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>showDetail(+b.dataset.open));
+ document.querySelectorAll("[data-save]").forEach(b=>b.onclick=()=>{const p=people[+b.dataset.save];saved.has(p.name)?saved.delete(p.name):saved.add(p.name);renderProfiles();renderSaved()});
+}
+function renderSaved(){$("saved-list").textContent=saved.size?[...saved].join(", "):"Noch keine Profile gemerkt."}
+function showDetail(i){const p=people[i];hideSections();$("detail").classList.remove("hidden");$("detail").innerHTML=`<button class="secondary" id="back">← Zurück</button><div class="panel profile-hero"><div class="avatar" style="background:${p.color}">${p.initial}</div><h2>${p.name}, ${p.age}</h2><p class="muted">${p.type} · ${p.distance}</p><span class="pill">${p.verified?"Demo: verifiziert":"Demo: ungeprüft"}</span><p>${p.bio}</p><button id="start-chat">Chat öffnen</button></div>`;$("back").onclick=()=>{showTab("discover")};$("start-chat").onclick=()=>{activeChat=i;showTab("chats");renderChat()} }
+function hideSections(){["discover","chats","images","profile","detail"].forEach(id=>$(id).classList.add("hidden"))}
+function showTab(tab){hideSections();$(tab).classList.remove("hidden");document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));if(tab==="chats")renderChatList();if(tab==="profile")renderSaved()}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));renderProfiles()});
+function renderChatList(){$("chat-list").innerHTML=people.map((p,i)=>`<button class="secondary" style="display:block;width:100%;text-align:left;margin:8px 0" data-chat="${i}">${p.initial} &nbsp; ${p.name} <span class="muted small">— Demo-Unterhaltung öffnen</span></button>`).join("");document.querySelectorAll("[data-chat]").forEach(b=>b.onclick=()=>{activeChat=+b.dataset.chat;renderChat()})}
+function renderChat(){if(activeChat===null){$("chat-window").classList.add("hidden");return}const p=people[activeChat];$("chat-window").classList.remove("hidden");$("chat-window").innerHTML=`<h3>${p.name}</h3><div class="chatline">Hey! Schön, dass wir uns kennenlernen. 😊</div><div id="sent-message"></div><textarea id="message" class="field" rows="2" placeholder="Demo-Nachricht schreiben …"></textarea><button id="send-demo">Demo-Nachricht anzeigen</button><p class="notice">Nur lokal simuliert – nicht wirklich versendet.</p>`;$("send-demo").onclick=()=>{const val=$("message").value.trim();if(val)$("sent-message").innerHTML=`<div class="chatline mine"></div>`,$("sent-message").firstChild.textContent=val}}
+$("verify-button").onclick=()=>$("verify-note").classList.toggle("hidden");
+$("profile-verify").onclick=()=>showTab("images");
+renderProfiles();renderChatList();
+</script>
+</body>
+</html>
